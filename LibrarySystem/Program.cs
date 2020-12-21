@@ -21,8 +21,8 @@ namespace LibrarySystem
             var win = new Window()
             {
                 Title = "Library System",
-                Width = Console.WindowWidth ,
-                Height = Console.WindowHeight ,
+                Width = Console.WindowWidth,
+                Height = Console.WindowHeight,
 
             };
 
@@ -34,14 +34,14 @@ namespace LibrarySystem
                 Console.Clear();
                 Button btnCLick = new Button(50, 19, "Read");
                 opendialog.Add(btnCLick);
-                btnCLick.Clicked += onSelectBook;
+                btnCLick.Clicked += OpenDialog;
                 Window temp = new Window();
                 temp.Add(opendialog);
                 top.Add(temp);
 
             }
 
-            void onSelectBook()
+            void OpenDialog()
             {
                 Console.Clear();
                 string[] vs = File.ReadAllLines(opendialog.FilePath.ToString());
@@ -52,35 +52,39 @@ namespace LibrarySystem
                 string pozkniny = readText[3];
                 string knihykdisp = readText[4];
                 string pocetstran = readText[5];
+                string obsahh = readText[6];
                 Application.Refresh();
                 var preview = new Window()
                 {
                     Title = názov,
-                    Width = Console.WindowWidth  ,
-                    Height = Console.WindowHeight  ,
+                    Width = Console.WindowWidth,
+                    Height = Console.WindowHeight,
                     Visible = true,
 
                 };
+               
                 Button btnEdit = new Button(0, 27, "EDIT");
                 btnEdit.Clicked += onEditCLick;
                 Button btnDel = new Button(108, 27, "DELETE");
                 btnDel.Clicked += onDelete;
 
+              
                 void onDelete()
                 {
 
                     File.Delete(opendialog.FilePath.ToString());
                 }
 
-
+                string vystup = new String(obsahh.Select(ch => ch == 'ô' ? '\n' : ch).ToArray());
                 preview.Add(
                     new Label(0, 0, "Nazov: " + názov),
                     new Label(0, 1, "Author: " + autor),
                     new Label(0, 2, "Knihy do kopy: " + knihydokopy),
                     new Label(0, 3, "Požičané kniny: " + pozkniny),
                     new Label(0, 4, "Knihy k dispozícii: " + knihykdisp),
-                    new Label(0, 5, "Počet strán: " + pocetstran), btnEdit, btnDel
-                );
+                    new Label(0, 5, "Počet strán: " + pocetstran), btnEdit, btnDel,
+                    new Label(0, 6, "Obsah: " + vystup)
+                ); ;
 
                 Console.Clear();
                 top.Add(preview);
@@ -94,6 +98,7 @@ namespace LibrarySystem
             TextField pozicSave = new TextField(17, 3, 34, "");
             TextField kdispSave = new TextField(21, 4, 30, "");
             TextField pocetstranSave = new TextField(14, 5, 37, "");
+            TextField obsah = new TextField(22, 6, 30, "");
 
 
             void onEditCLick()
@@ -103,8 +108,8 @@ namespace LibrarySystem
                 var editWindow = new Window()
                 {
                     Title = "EDIT BOOK",
-                    Width = Console.WindowWidth ,
-                    Height = Console.WindowHeight ,
+                    Width = Console.WindowWidth,
+                    Height = Console.WindowHeight,
                     Visible = true
                 };
                 string fileName = opendialog.FilePath.ToString();
@@ -125,6 +130,7 @@ namespace LibrarySystem
                     new Label(0, 5, "Počet strán:"), btnOK
 
 
+
                 );
 
                 Application.Refresh();
@@ -134,7 +140,7 @@ namespace LibrarySystem
 
             }
 
-            
+
             void onCreateNewBook()
             {
                 Console.Clear();
